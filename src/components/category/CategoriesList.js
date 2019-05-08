@@ -23,7 +23,7 @@ const CategoriesList = (props) => {
       </Row>
       <Row>
         <Col xs={12} lg={{ span: 6, offset: 3 }}>
-          <Table size='sm' bordered>
+          <Table id="categoryTable" size='sm' striped bordered hover variant="dark">
             <thead>
               <tr>
                 <th>Name</th>

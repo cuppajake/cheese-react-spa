@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { LinkContainer } from "react-router-bootstrap";
 
 const CheeseNav = () => (
-  <Navbar>
+  <Navbar bg="dark" variant="dark">
     <Nav>
       {/* exact prop means "exact match" since all other subpaths match "/" */}
       <LinkContainer exact to="/">

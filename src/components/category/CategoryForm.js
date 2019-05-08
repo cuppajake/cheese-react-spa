@@ -62,7 +62,7 @@ class CategoryForm extends Component {
           
           <Button
             type="submit"
-            variant="primary"
+            variant="dark"
             onClick={this.handleSubmit}
             disabled={disabled}
             // attribute prop, which attribute?
