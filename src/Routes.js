@@ -4,6 +4,7 @@ import Home from './views/HomeView';
 import Cheeses from './views/CheesesView';
 import Categories from './views/CategoriesView';
 import Menus from './views/MenusView';
+import Menu from './views/MenuView';
 
 const Routes = () => (
   <Switch>
@@ -11,6 +12,7 @@ const Routes = () => (
     <Route exact path="/" component={Home} />
     <Route path="/cheeses" component={Cheeses} />
     <Route path="/categories" component={Categories} />
+    <Route path="/menus/:menuID" component={Menu} />
     <Route path="/menus" component={Menus} />
   </Switch>
 );

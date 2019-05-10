@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 
 export const createCategoryOption = category => (
   // TODO: return a JSX option using the category id and name
-  <option value={category.categoryID}>{category.name}</option>
+  <option key={category.id} value={category.id}>{category.name}</option>
 );
 
 const CheeseCategorySelector = props => {
@@ -21,7 +21,7 @@ const CheeseCategorySelector = props => {
     >
       {/* TODO: implement the first option */}
 
-      <option>{firstOption}</option>
+      <option value="">{firstOption}</option>
 
       {categories.map(createCategoryOption)}
       {/* TODO: transform the categories into options */}

@@ -2,7 +2,23 @@ body {
   background-color: navajowhite;
 }
 
+div.cheese-home-page {
+  margin: 0 auto;
+  text-align: center;
+  position: center;
+}
+
 #categoryTable {
   color: navajowhite;
+}
+
+#cheese-form {
+  margin: 0 auto;
+}
+
+#cheese-cats {
+  margin: 0 auto;
+  position: center;
+  text-align: center;
 }
 

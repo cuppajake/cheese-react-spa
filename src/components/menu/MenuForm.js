@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 
 import request from "../../utilities/api-request";
 
-class CategoryForm extends Component {
+class MenuForm extends Component {
   state = {
     // TODO: implement initial state
     name: '', 
@@ -31,14 +31,14 @@ class CategoryForm extends Component {
   handleSubmit = async event => {
     event.preventDefault();
     const { name } = this.state;
-    const { addCategory } = this.props;
+    const { addMenu } = this.props;
 
     // TODO: send a POST request with the form data (don't forget to await the Promise!)
-    const res = await request.post("/categories", { name });
-    const category = res.data;
+    const res = await request.post("/menus", { name });
+    const menu = res.data;
 
-    addCategory(category)
-    // TODO: send the new category back to the <CategoriesView> Parent
+    addMenu(menu)
+    // TODO: send the new menu back to the <MenusView> Parent
     this.resetForm();
   };
 
@@ -47,10 +47,10 @@ class CategoryForm extends Component {
 
     return (
       <Container className="text-center">
-        <h2>Create a Category</h2>
+        <h2>Create a Menu</h2>
         <Form>
           <Form.Group as={Col} sm={{ offset: 4, span: 4 }}>
-            <Form.Label>Category Name</Form.Label>
+            <Form.Label>Menu Name</Form.Label>
             <Form.Control
               name="name"
               minLength="3"
@@ -78,11 +78,11 @@ class CategoryForm extends Component {
   }
 }
 
-CategoryForm.propTypes = {
+MenuForm.propTypes = {
   // TODO: implement the prop types for this component (see below)
-  addCategory: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
+  addMenu: PropTypes.func.isRequired,
+  name: PropTypes.string,
   disabled: PropTypes.bool,
 };
 
-export default CategoryForm;
+export default MenuForm;

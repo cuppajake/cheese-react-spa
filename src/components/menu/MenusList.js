@@ -1,25 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { categoryType } from "../../utilities/prop-types";
+import { Link } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
 
-const createCategoryRow = category => (
+const createMenuRow = menu => (
   // TODO: implement this utility function
-  // it should return a row and column with the category name
-  <tr><td>{category.name}</td></tr>
+  // it should return a row and column with the menu name
+  <tr key={menu.id}><td><Link to={`/menus/${menu.id}`}>{menu.name}</Link></td></tr>
   );
 
-const CategoriesList = (props) => {
-  const { categories } = props;
+const MenusList = (props) => {
+  const { menus } = props;
 
   return (
     <Container>
       <Row>
         <Col>
-          <h2 className='text-center'>Categories</h2>
+          <h2 className='text-center'>Menus</h2>
         </Col>
       </Row>
       <Row>
@@ -31,8 +31,8 @@ const CategoriesList = (props) => {
               </tr>
             </thead>
             <tbody>
-              {/* TODO: implement the body (category name rows) */}
-              {categories.map(createCategoryRow)}
+              {/* TODO: implement the body (menu name rows) */}
+              {menus.map(createMenuRow)}
             </tbody>
           </Table>
         </Col>
@@ -41,9 +41,8 @@ const CategoriesList = (props) => {
   );
 }
 
-CategoriesList.propTypes = {
+MenusList.propTypes = {
   // TODO: implement the prop types, this one is tricky (see below)
-  categories: PropTypes.arrayOf(categoryType).isRequired
 };
 
-export default CategoriesList;
+export default MenusList;

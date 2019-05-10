@@ -8,10 +8,29 @@ import CheesesList from "../components/cheese/CheesesList";
 import CheeseForm from "../components/cheese/CheeseForm";
 import CheeseCategorySelector from "../components/cheese/CheeseCategorySelector";
 
+const hasCheese = (menu, cheeseID) => menu.cheeses.some(cheese => cheese.id === cheeseID);
+
+const deleteMenuCheese = (menu, cheeseID) => request.delete(`/menus/${menu.id}/cheeses/${cheeseID}`);
+
+const menuDeleteRequests = (menus, cheeseID) => menus.map(menu => hasCheese(menu, cheeseID) && deleteMenuCheese(menu, cheeseID));
+
+const deleteFromMenusAndRetry = async cheeseID => {
+  const res = await request.get('/menus');
+  const allMenus = res.data;
+  // await deletin the cheese from all menus it belongs to
+  // await retrying deleting from /cheeses
+  // await request.delete("/cheeses/" + cheeseID)
+
+  await Promise.all(menuDeleteRequests(allMenus, cheeseID))
+    .then(() => request.delete(`/cheeses/${cheeseID}`))
+    .catch(error => console.log('promises delete error', { error }));
+}
+
 class CheesesView extends Component {
   state = {
     cheeses: [], 
     categories: [], 
+    selectedCategoryID: "",
     // TODO: implement the initial state
   };
 
@@ -36,19 +55,17 @@ class CheesesView extends Component {
     });
 
   deleteCheese = async cheeseID => {
-    const res = await request.delete("/cheeses" + cheeseID)
-    // TODO: implement a request to the correct endpoint to delete the cheese (be mindful of the HTTP method you need) #check
-
-    // if the DELETE request was unsuccessful exit early
-    if (res.status !== 204) {
-      return;
+    try {
+      await request.delete("/cheeses/" + cheeseID);
+    } catch (e) {
+      await deleteFromMenusAndRetry(cheeseID);
     }
 
-    // otherwise update state by removing the cheese
     this.setState(state => {
       const cheeses = state.cheeses.filter(cheese => cheese.id !== cheeseID);
       return { cheeses };
     });
+
   };
 
   getCategoryCheeses = async categoryChangeEvent => {
@@ -78,12 +95,12 @@ class CheesesView extends Component {
           <CheeseForm
             /* TODO: complete the props for this component */
             categories={categories}
-            addToCheeses={this.addToCheeses}
+            addCheese={this.addToCheeses}
             />
         </Row>
         <hr />
         <Row className="text-center">
-          <Col xs={12} md={8} lg={4}>
+          <Col lg={4}>
             <h5>Cheeses by Category</h5>
             <CheeseCategorySelector
               /* TODO: complete the props for this component */
@@ -93,13 +110,15 @@ class CheesesView extends Component {
               handleChange={this.getCategoryCheeses}
             />
           </Col>
+          <Col>
+            <CheesesList
+              /* TODO: complete the props for this component */
+              cheeses={cheeses}
+              // only show [remove] button if in 'All' category (selectedCategoryID is an empty string)
+              removeCheese={selectedCategoryID === "" && this.deleteCheese}
+            />
+          </Col>
         </Row>
-        <CheesesList
-          /* TODO: complete the props for this component */
-          cheeses={cheeses}
-          // only show [remove] button if in 'All' category (selectedCategoryID is an empty string)
-          removeCheese={selectedCategoryID === "" && this.deleteCheese}
-        />
       </Container>
     );
   }
